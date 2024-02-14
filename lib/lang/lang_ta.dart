@@ -42,4 +42,13 @@ class LanguageTa extends Languages {
 
   @override
   String get cancel => "ரத்துசெய்";
+
+  @override
+  String get password => "கடவுச்சொல்";
+
+  @override
+  String get signup => "பதிவு செய்தல்";
+
+  @override
+  String get login => "உள் நுழை";
 }

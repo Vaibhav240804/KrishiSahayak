@@ -42,4 +42,13 @@ class LanguageBn extends Languages {
 
   @override
   String get cancel => "বাতিল";
+
+  @override
+  String get password => "পাসওয়ার্ড";
+
+  @override
+  String get signup => "নিবন্ধন";
+
+  @override
+  String get login => "লগইন";
 }

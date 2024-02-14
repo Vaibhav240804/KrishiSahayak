@@ -42,4 +42,13 @@ class LanguageHi extends Languages {
 
   @override
   String get cancel => "रद्द करें";
+
+  @override
+  String get password => "पासवर्ड";
+
+  @override
+  String get signup => "साइन अप";
+
+  @override
+  String get login => "लॉगिन";
 }

@@ -6,14 +6,14 @@ import 'package:location/location.dart' as loc;
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class LogInPage extends StatefulWidget {
+  const LogInPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _SignUpPageState();
+  State<StatefulWidget> createState() => _LogInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _LogInPageState extends State<LogInPage> {
   loc.Location location = loc.Location();
 
   Locale chooseLang = const Locale('en');
@@ -31,7 +31,6 @@ class _SignUpPageState extends State<SignUpPage> {
   String? area, city, state, pincode;
 
   late User _user;
-  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -111,21 +110,6 @@ class _SignUpPageState extends State<SignUpPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    labelText: Languages.of(context)!.name,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextField(
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: Languages.of(context)!.email,
@@ -154,66 +138,58 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ElevatedButton(
                   onPressed: () async {
                     _user = User(
-                      name: _nameController.text,
                       email: _emailController.text,
                       password: _passwordController.text,
-                      city: city ?? "",
-                      state: state ?? "",
-                      pincode: int.parse(pincode ?? "0"),
                       lat: lat ?? 0.0,
                       lon: long ?? 0.0,
-                      soil: {
-                        'ph': 0.0,
-                        'nitrogen': 0.0,
-                        'potassium': 0.0,
-                        'phosphorus': 0.0,
-                        'ec': 0.0,
-                        'oc': 0.0,
-                      },
+                      city: city ?? '',
+                      state: state ?? '',
+                      pincode: int.tryParse(pincode ?? '') ?? 0,
+                      name: Provider.of<UserProvider>(context, listen: false)
+                          .user
+                          .name,
+                      soil: Provider.of<UserProvider>(context, listen: false)
+                          .user
+                          .soil,
                     );
-
-                    Future<String> response =
+                    Future<String> status =
                         Provider.of<UserProvider>(context, listen: false)
-                            .signUp(_user);
-                    response
-                        .then((value) => {
-                              {Navigator.pushReplacementNamed(context, '/home')}
-                            })
-                        .catchError(
-                      (error) {
+                            .logIn(_user);
+                    status.then((value) {
+                      if (value == 'success') {
+                        Provider.of<UserProvider>(context, listen: false)
+                            .getSoidDetails();
+                        Navigator.pushReplacementNamed(context, '/home');
+                      } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(
-                              error.toString(),
-                            ),
+                            content: Text(value),
                           ),
                         );
-                      },
-                    );
+                      }
+                    });
                   },
                   child: Text(
-                    Languages.of(context)!.signup,
-                    style: Theme.of(context).textTheme.titleLarge,
+                    Languages.of(context)!.login,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              const SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/login');
+                    Navigator.pushReplacementNamed(context, '/signup');
                   },
                   child: Text(
-                    Languages.of(context)!.login,
+                    Languages.of(context)!.signup,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),

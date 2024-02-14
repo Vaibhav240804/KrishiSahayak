@@ -3,6 +3,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class WeatherProvider extends ChangeNotifier {
+  Map<String, dynamic> _currentWeather = {};
+  Map<String, dynamic> _foreCast = {};
+
+  Map<String, dynamic> get currentWeather => _currentWeather;
+  Map<String, dynamic> get foreCast => _foreCast;
+
+  Future<void> fetchWeather(double lat, double lon) async {
+    try {
+      _currentWeather = await getCurrentWeather(lat, lon);
+      _foreCast = await getForeCast(lat, lon);
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>> getForeCast(double lat, double lon) async {
     const apiKey = "f3fe096bffdbcc33181446bc7bcf0278";
     try {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:krishi_sahayak/lang/abs_lan.dart';
+import 'package:krishi_sahayak/providers/user_provider.dart';
 import 'package:krishi_sahayak/widgets/soil_analysis.dart';
+import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -50,17 +52,12 @@ class _ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            Languages.of(context)!.name,
+                            "${Languages.of(context)!.email} :  ${Provider.of<UserProvider>(context).user.email}",
                             style: Theme.of(context).textTheme.titleLarge,
                             textAlign: TextAlign.center,
                           ),
                           Text(
-                            Languages.of(context)!.email,
-                            style: Theme.of(context).textTheme.titleLarge,
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            Languages.of(context)!.location,
+                            "${Languages.of(context)!.location} :  ${Provider.of<UserProvider>(context).user.state}",
                             style: Theme.of(context).textTheme.titleLarge,
                             textAlign: TextAlign.center,
                           ),

@@ -43,4 +43,12 @@ class LanguageKn extends Languages {
   @override
   String get cancel => "ರದ್ದುಮಾಡಿ";
 
+  @override
+  String get password => "ಪಾಸ್‌ವರ್ಡ್";
+
+  @override
+  String get signup => "ಸೈನ್ ಅಪ್";
+
+  @override
+  String get login => "ಲಾಗಿನ್";
 }

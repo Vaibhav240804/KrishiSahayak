@@ -1,9 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:krishi_sahayak/providers/user_provider.dart';
 import 'package:provider/provider.dart';
-
+import '../widgets/current_weather.dart';
 import '../widgets/weather_card.dart';
 import '../providers/weather_provider.dart'; // Import your WeatherProvider
 
@@ -12,191 +11,165 @@ class WeatherScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve WeatherProvider instance
-    WeatherProvider weatherProvider = Provider.of<WeatherProvider>(context);
+    WeatherProvider weatherProvider =
+        Provider.of<WeatherProvider>(context, listen: false);
+
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Weather App",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+      appBar: AppBar(
+        title: const Text(
+          "Weather App",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {
-                // Refresh data by fetching again from the provider
-                weatherProvider.getForeCast( 0, 0); // Update with actual lat, lon
-              },
-              icon: const Icon(Icons.refresh),
-            )
-          ],
         ),
-        body: FutureBuilder(
-          future:
-              weatherProvider.getForeCast(0, 0), // Update with actual lat, lon
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasError || snapshot.data == null) {
-              return Center(
-                child: Text(
-                  snapshot.error?.toString() ??
-                      "An unexpected error has occurred",
-                ),
-              );
-            }
-
-            final data = snapshot.data;
-            final currentTemp = data!["list"][0]["main"]["temp"];
-            final currentSky = data["list"][0]["weather"][0]["main"];
-            final hourlyPrediction = data["list"].sublist(1, 31);
-
-            final Map<int, Map> additionalInfo = {
-              1: {
-                "icon": Icons.water_drop,
-                "label": "Humidity",
-                "value": data["list"][0]["main"]["humidity"]
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                weatherProvider.fetchWeather(
+                    userProvider.user.lat, userProvider.user.lon);
               },
-              2: {
-                "icon": Icons.beach_access,
-                "label": "pressure",
-                "value": data["list"][0]["main"]["pressure"]
-              },
-              3: {
-                "icon": Icons.air,
-                "label": "Wind Speed",
-                "value": data["list"][0]["wind"]["speed"]
-              },
-            };
+              icon: const Icon(Icons.refresh))
+        ],
+      ),
+      body: FutureBuilder(
+        future: _fetchWeather(context, userProvider.user.lat,
+            userProvider.user.lon), // Update with actual lat, lon
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error} '));
+          }
 
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  // mainCard
-                  CurrentWeather(
-                      currentTemp: currentTemp, currentSky: currentSky),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.symmetric(vertical: 15),
-                    child: const Text(
-                      "Weather Forecast",
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                  ),
+          final data = weatherProvider.foreCast;
+          final currentTempInKelvin = data["list"][0]["main"]["temp"];
+          final currentTemp =
+              (currentTempInKelvin - 273.15).toString().substring(0, 4);
 
-                  SizedBox(
-                    height: 130,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 30,
-                        itemBuilder: (context, index) {
-                          final temp = hourlyPrediction[index]["main"]["temp"];
-                          final sky =
-                              hourlyPrediction[index]["weather"][0]["main"];
-                          final desc = hourlyPrediction[index]["weather"][0]
-                              ["description"];
-                          final time =
-                              DateTime.parse(hourlyPrediction[index]["dt_txt"]);
-                          return HourlyForeCastItem(
-                            temp: temp.toString(),
-                            time:
-                                "${DateFormat.j().format(time)} ${DateFormat.MMMd().format(time)} ",
-                            desc: desc,
-                            icon: sky == "Clouds" || sky == "Rain"
-                                ? Icons.cloud
-                                : Icons.sunny,
-                          );
-                        }),
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: const EdgeInsets.symmetric(vertical: 15),
-                    child: const Text(
-                      "Additional Information",
-                      style: TextStyle(
-                        fontSize: 24,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      AdditionalInformation(
-                          icon: additionalInfo[1]!["icon"],
-                          label: additionalInfo[1]!["label"].toString(),
-                          value: additionalInfo[1]!["value"].toString()),
-                      AdditionalInformation(
-                          icon: additionalInfo[2]!["icon"],
-                          label: additionalInfo[2]!["label"].toString(),
-                          value: additionalInfo[2]!["value"].toString()),
-                      AdditionalInformation(
-                          icon: additionalInfo[3]!["icon"],
-                          label: additionalInfo[3]!["label"].toString(),
-                          value: additionalInfo[3]!["value"].toString()),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          },
-        ));
-  }
-}
+          final currentSky = data["list"][0]["weather"][0]["main"];
+          final hourlyPrediction = data["list"].sublist(1, 31);
 
-class CurrentWeather extends StatelessWidget {
-  const CurrentWeather({
-    super.key,
-    required this.currentTemp,
-    required this.currentSky,
-  });
+          final Map<int, Map> additionalInfo = {
+            1: {
+              "icon": Icons.water_drop,
+              "label": "Humidity",
+              "value": data["list"][0]["main"]["humidity"]
+            },
+            2: {
+              "icon": Icons.beach_access,
+              "label": "pressure",
+              "value": data["list"][0]["main"]["pressure"]
+            },
+            3: {
+              "icon": Icons.air,
+              "label": "Wind Speed",
+              "value": data["list"][0]["wind"]["speed"]
+            },
+          };
 
-  final currentTemp;
-  final currentSky;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 200,
-      width: double.infinity,
-      child: Card(
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  "$currentTemp k",
-                  style: const TextStyle(fontSize: 32),
+                // mainCard
+                CurrentWeather(
+                    currentTemp: currentTemp, currentSky: currentSky),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.symmetric(vertical: 15),
+                  child: const Text(
+                    "Weather Forecast",
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
                 ),
-                Icon(
-                  currentSky == "Clouds" || currentSky == "Rain"
-                      ? Icons.cloud
-                      : Icons.sunny,
-                  size: 64,
+
+                SizedBox(
+                  height: 130,
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 30,
+                      itemBuilder: (context, index) {
+                        final currentTempInKelvin =
+                            hourlyPrediction[index]["main"]["temp"];
+                        final temp = (currentTempInKelvin - 273.15)
+                            .toString()
+                            .substring(0, 4);
+                        final sky =
+                            hourlyPrediction[index]["weather"][0]["main"];
+                        final desc = hourlyPrediction[index]["weather"][0]
+                            ["description"];
+                        final time =
+                            DateTime.parse(hourlyPrediction[index]["dt_txt"]);
+                        return HourlyForeCastItem(
+                          temp: temp.toString(),
+                          time:
+                              "${DateFormat.j().format(time)} ${DateFormat.MMMd().format(time)} ",
+                          desc: desc,
+                          icon: sky == "Clouds" || sky == "Rain"
+                              ? Icons.cloud
+                              : Icons.sunny,
+                        );
+                      }),
                 ),
-                Text(
-                  "$currentSky",
-                  style: const TextStyle(fontSize: 16),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.symmetric(vertical: 15),
+                  child: const Text(
+                    "Additional Information",
+                    style: TextStyle(
+                      fontSize: 24,
+                    ),
+                  ),
                 ),
-                const SizedBox(
-                  height: 10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    AdditionalInformation(
+                        icon: additionalInfo[1]!["icon"],
+                        label: additionalInfo[1]!["label"].toString(),
+                        value: additionalInfo[1]!["value"].toString()),
+                    AdditionalInformation(
+                        icon: additionalInfo[2]!["icon"],
+                        label: additionalInfo[2]!["label"].toString(),
+                        value: additionalInfo[2]!["value"].toString()),
+                    AdditionalInformation(
+                        icon: additionalInfo[3]!["icon"],
+                        label: additionalInfo[3]!["label"].toString(),
+                        value: additionalInfo[3]!["value"].toString()),
+                  ],
                 ),
               ],
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
+  }
+
+  Future<void> _fetchWeather(
+      BuildContext context, double lat, double lon) async {
+    // Access the MarketProvider using Provider.of
+    WeatherProvider weatherProvider =
+        Provider.of<WeatherProvider>(context, listen: false);
+    if (weatherProvider.currentWeather.isEmpty) {
+      try {
+        await weatherProvider.fetchWeather(lat, lon);
+      } catch (e) {
+        SnackBar(content: Text('Error fetching current weather: $e'));
+      }
+    }
+    if (weatherProvider.foreCast.isEmpty) {
+      try {
+        await weatherProvider.fetchWeather(lat, lon);
+      } catch (e) {
+        SnackBar(content: Text('Error fetching forecast: $e'));
+      }
+    }
   }
 }

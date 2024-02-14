@@ -33,6 +33,13 @@ abstract class Languages {
 
   String get cancel;
 
+  String get password;
+
+  String get signup;
+
+  String get login;
+
+
   static languagesList() {}
 
   getLabel(Locale locale) {}

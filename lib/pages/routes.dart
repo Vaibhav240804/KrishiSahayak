@@ -6,6 +6,7 @@ import 'package:krishi_sahayak/pages/market_page.dart';
 import 'package:krishi_sahayak/pages/personal_calendar.dart';
 import 'package:krishi_sahayak/pages/soil_weather.dart';
 import 'package:krishi_sahayak/providers/providers.dart';
+import 'package:krishi_sahayak/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class Routes extends StatefulWidget {
@@ -17,6 +18,7 @@ class Routes extends StatefulWidget {
 
 class _RoutesState extends State<Routes> {
   int _currentIndex = 0;
+
   Map<String, String> langs = {
     'en': 'English',
     'hi': 'हिंदी',
@@ -30,7 +32,8 @@ class _RoutesState extends State<Routes> {
     // ignore: no_leading_underscores_for_local_identifiers
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        elevation: Theme.of(context).appBarTheme.elevation,
         title: Text(
           Languages.of(context)!.appName,
           style: Theme.of(context).textTheme.titleLarge,
@@ -43,7 +46,6 @@ class _RoutesState extends State<Routes> {
               Navigator.pushNamed(context, '/profile');
             },
           ),
-          // dropdown to select language
           PopupMenuButton<Locale>(
             icon: const Icon(Icons.language),
             onSelected: (Locale locale) {
