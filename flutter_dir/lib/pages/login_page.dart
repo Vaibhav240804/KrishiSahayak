@@ -76,6 +76,7 @@ class _LogInPageState extends State<LogInPage> {
               const SizedBox(height: 50),
               Text(
                 Languages.of(context)!.appName,
+                // 'Krishi Sahayak',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
@@ -113,6 +114,7 @@ class _LogInPageState extends State<LogInPage> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: Languages.of(context)!.email,
+                    // labelText: 'Email',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -129,6 +131,7 @@ class _LogInPageState extends State<LogInPage> {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: Languages.of(context)!.password,
+                    // labelText: 'Password',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -177,6 +180,7 @@ class _LogInPageState extends State<LogInPage> {
                   },
                   child: Text(
                     Languages.of(context)!.login,
+                    // 'Login',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
@@ -190,6 +194,7 @@ class _LogInPageState extends State<LogInPage> {
                   },
                   child: Text(
                     Languages.of(context)!.signup,
+                    // 'Sign Up',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),

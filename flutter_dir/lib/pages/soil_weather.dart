@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'weather.dart';
 
 class SoilWeather extends StatefulWidget {
-  const SoilWeather({Key? key});
+  const SoilWeather({super.key});
 
   @override
   State<SoilWeather> createState() => _SoilWeatherState();

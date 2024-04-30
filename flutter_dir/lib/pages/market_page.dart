@@ -133,7 +133,7 @@ class ModifiedCommodityPrices extends StatelessWidget {
     if (marketProvider.statewizeRecords.isEmpty) {
       try {
         await marketProvider.getCommodityRecords(
-            Provider.of<UserProvider>(context).user!.state);
+            Provider.of<UserProvider>(context).user.state);
       } catch (e) {
         SnackBar(content: Text('Error fetching all commodity records: $e'));
       }

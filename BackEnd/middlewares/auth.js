@@ -5,6 +5,7 @@ import ErrorHandler from "./errorHandler.js";
 
 export const isAuthenticated = catchAsyncError(async (req, res, next) => {
   const { token } = req.cookies;
+  console.log("req.cookies : " + req.cookies);
 
   console.log("jwttoken : " + token);
   if (!token) {
@@ -18,6 +19,9 @@ export const isAuthenticated = catchAsyncError(async (req, res, next) => {
     // console.log(req.user);
     next();
   } catch (error) {
-    return next(new ErrorHandler("Unauthorized", 401));
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized",
+    });
   }
 });

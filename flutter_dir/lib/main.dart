@@ -64,7 +64,6 @@ class _MyAppState extends State<MyApp> {
           bodyMedium: TextStyle(fontSize: 16.0),
           bodyLarge: TextStyle(fontSize: 20.0),
         ),
-        // push notification if soil data is not available-->
         snackBarTheme: SnackBarThemeData(
           backgroundColor: Colors.amber.shade400,
           contentTextStyle: const TextStyle(
@@ -82,7 +81,6 @@ class _MyAppState extends State<MyApp> {
           ),
           elevation: 2,
         ),
-
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: Colors.amber.shade400,
           selectedItemColor: Colors.black,
@@ -134,9 +132,12 @@ class _MyAppState extends State<MyApp> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
           content: Text(
-              'Location services are disabled. Please enable the services')));
+              'Location services are disabled. Please enable the services'),
+        ),
+      );
       return false;
     }
     permission = await Geolocator.checkPermission();
@@ -144,14 +145,20 @@ class _MyAppState extends State<MyApp> {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Location permissions are denied')));
+          const SnackBar(
+            content: Text('Location permissions are denied'),
+          ),
+        );
         return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
           content: Text(
-              'Location permissions are permanently denied, we cannot request permissions.')));
+              'Location permissions are permanently denied, we cannot request permissions.'),
+        ),
+      );
       return false;
     }
     return true;

@@ -55,12 +55,16 @@ export const register = catchAsyncError(async (req, res, next) => {
       password,
     } = req.body;
 
+    console.log("User Registration");
     if (!name || !email || !password)
       return next(new ErrorHandler("Please enter all fields", 400));
 
     let user = await User.findOne({ email });
 
-    if (user) return next(new ErrorHandler("User Already exists", 409));
+    if (user) {
+      console.log("User Already exists");
+      return next(new ErrorHandler("User Already exists", 409));
+    }
 
     // Hash the password before saving it to the database
     // const hashedPassword = await bcrypt.hash(password, 10);

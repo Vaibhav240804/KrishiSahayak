@@ -33,6 +33,7 @@ class _ProfileState extends State<Profile> {
                   const Spacer(flex: 2),
                   Text(
                     Languages.of(context)!.profile,
+                    // "Profile",
                     style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.center,
                   ),
@@ -53,11 +54,13 @@ class _ProfileState extends State<Profile> {
                         children: [
                           Text(
                             "${Languages.of(context)!.email} :  ${Provider.of<UserProvider>(context).user.email}",
+                            // "Email :  ${Provider.of<UserProvider>(context).user.email}",
                             style: Theme.of(context).textTheme.titleLarge,
                             textAlign: TextAlign.center,
                           ),
                           Text(
                             "${Languages.of(context)!.location} :  ${Provider.of<UserProvider>(context).user.state}",
+                            // "Location :  ${Provider.of<UserProvider>(context).user.state}",
                             style: Theme.of(context).textTheme.titleLarge,
                             textAlign: TextAlign.center,
                           ),
@@ -69,6 +72,7 @@ class _ProfileState extends State<Profile> {
                   const Spacer(flex: 1),
                   Text(
                     Languages.of(context)!.soilAnalysis,
+                    // "Soil Analysis",
                     style: Theme.of(context).textTheme.titleMedium,
                     textAlign: TextAlign.center,
                   ),

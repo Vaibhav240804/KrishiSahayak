@@ -24,6 +24,7 @@ class _PersonalCalendarState extends State<PersonalCalendar> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(Languages.of(context)!.personalCal,
+                // Text('Personal Calendar',
                 style: Theme.of(context).textTheme.titleMedium),
             const Divider(height: 20),
             const HomeCalendarPage(),
@@ -133,6 +134,7 @@ class _HomeCalendarPageState extends State<HomeCalendarPage> {
                                             },
                                             child: Text(
                                               Languages.of(context)!.cancel,
+                                              // 'Cancel',
                                               style: const TextStyle(
                                                 color: Colors.greenAccent,
                                                 fontSize: 14,
@@ -191,6 +193,7 @@ class _HomeCalendarPageState extends State<HomeCalendarPage> {
                           DateFormat.d(locale.toString())
                               .format(details.date)
                               .toString(),
+                          // details.date.day.toString(),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
@@ -234,6 +237,7 @@ class _HomeCalendarPageState extends State<HomeCalendarPage> {
                               },
                               child: Text(
                                 Languages.of(context)!.cancel,
+                                // 'Cancel',
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ),
@@ -284,6 +288,7 @@ class _HomeCalendarPageState extends State<HomeCalendarPage> {
                             },
                             child: Text(
                               Languages.of(context)!.cancel,
+                              // 'Cancel',
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
@@ -294,6 +299,7 @@ class _HomeCalendarPageState extends State<HomeCalendarPage> {
                             },
                             child: Text(
                               Languages.of(context)!.save,
+                              // 'Save',
                               style: const TextStyle(
                                   color: Colors.green,
                                   fontSize: 20,

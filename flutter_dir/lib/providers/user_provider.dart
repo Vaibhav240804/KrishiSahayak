@@ -93,9 +93,11 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String host = "c5bc-137-59-204-8";
+
   Future<String> predictCrop() async {
     try {
-      var url = Uri.parse('http://192.168.15.84:8000/predict');
+      var url = Uri.parse('https://$host.ngrok-free.app/predict');
       Map<String, dynamic> soilData = {
         'N': _user.soil['N'],
         'P': _user.soil['P'],
@@ -137,7 +139,7 @@ class UserProvider extends ChangeNotifier {
   Future<String> getSoidDetails() async {
     try {
       final cookie = await getStoredCookie();
-      var url = Uri.parse('http://192.168.15.84:5000/api/getsoildetails');
+      var url = Uri.parse('http://192.168.0.108:5000/api/getsoildetails');
       var response = await http.get(
         url,
         headers: {
@@ -184,8 +186,9 @@ class UserProvider extends ChangeNotifier {
     }
     try {
       getStoredCookie().then((cookie) async {
+        print(cookie.toString());
         try {
-          var url = Uri.parse('http://192.168.15.84:5000/api/soildetails');
+          var url = Uri.parse('http://192.168.0.108:5000/api/soildetails');
           var response = await http.post(
             url,
             headers: {
@@ -243,8 +246,7 @@ class UserProvider extends ChangeNotifier {
     }
 
     try {
-      var url = Uri.parse(
-          'http://192.168.15.84:5000/api/register'); // Replace with your backend URL
+      var url = Uri.parse('http://192.168.0.108:5000/api/register');
       var response = await http.post(
         url,
         body: {
@@ -274,8 +276,7 @@ class UserProvider extends ChangeNotifier {
     final email = user.email;
     final password = user.password;
     try {
-      var url = Uri.parse(
-          'http://192.168.15.84:5000/api/login'); // Replace with your backend URL
+      var url = Uri.parse('http://192.168.0.108:5000/api/login');
       var response = await http.post(
         url,
         body: {

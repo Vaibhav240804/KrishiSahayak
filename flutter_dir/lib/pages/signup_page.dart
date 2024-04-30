@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:krishi_sahayak/lang/abs_lan.dart';
@@ -77,6 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 50),
               Text(
                 Languages.of(context)!.appName,
+                // 'Krishi Sahayak',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
@@ -114,6 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: _nameController,
                   decoration: InputDecoration(
                     labelText: Languages.of(context)!.name,
+                    // labelText: 'Name',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -129,6 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: _emailController,
                   decoration: InputDecoration(
                     labelText: Languages.of(context)!.email,
+                    // labelText: 'Email',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -145,6 +150,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: Languages.of(context)!.password,
+                    // labelText: 'Password',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -185,20 +191,30 @@ class _SignUpPageState extends State<SignUpPage> {
                         .then((value) => {
                               {Navigator.pushReplacementNamed(context, '/home')}
                             })
-                        .catchError(
-                      (error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              error.toString(),
-                            ),
-                          ),
-                        );
-                      },
-                    );
+                        .catchError((error) async {
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Error Occured {$error.toString()}'),
+                            content: Text(error.toString()),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      return {}; // Or any other empty value
+                    });
                   },
                   child: Text(
                     Languages.of(context)!.signup,
+                    // 'Sign Up',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
@@ -214,6 +230,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   },
                   child: Text(
                     Languages.of(context)!.login,
+                    // 'Login',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),

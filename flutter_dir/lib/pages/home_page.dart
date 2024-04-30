@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 // import 'package:geocoding/geocoding.dart';
 import 'package:krishi_sahayak/providers/weather_provider.dart';

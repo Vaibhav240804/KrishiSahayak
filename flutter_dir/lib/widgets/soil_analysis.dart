@@ -39,7 +39,8 @@ class _SoilAnalysisCardState extends State<SoilAnalysisCard> {
                         children: [
                           Expanded(
                             child: Text(
-                              Languages.of(context)!.soilAnalysis,
+                              // Languages.of(context)!.soilAnalysis,
+                              "Soil Analysis",
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ),
@@ -57,7 +58,8 @@ class _SoilAnalysisCardState extends State<SoilAnalysisCard> {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        Languages.of(context)!.lastUpdatedDate,
+                        // Languages.of(context)!.lastUpdatedDate,
+                        "Last Updated:",
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       Row(
@@ -98,7 +100,8 @@ class _SoilAnalysisCardState extends State<SoilAnalysisCard> {
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: Text(
-            Languages.of(context)!.cancel,
+            // Languages.of(context)!.cancel,
+            "Cancel",
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
@@ -107,12 +110,14 @@ class _SoilAnalysisCardState extends State<SoilAnalysisCard> {
             Navigator.pop(context);
             _saveChanges(context);
           },
-          child: Text(Languages.of(context)!.save,
-              style: const TextStyle(
-                color: Colors.lightGreen,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              )),
+          child:
+              // Text(Languages.of(context)!.save,
+              Text("Save",
+                  style: const TextStyle(
+                    color: Colors.lightGreen,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  )),
         ),
       ],
     );

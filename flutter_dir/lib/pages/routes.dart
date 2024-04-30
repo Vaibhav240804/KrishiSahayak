@@ -36,6 +36,7 @@ class _RoutesState extends State<Routes> {
         elevation: Theme.of(context).appBarTheme.elevation,
         title: Text(
           Languages.of(context)!.appName,
+          // "Krishi Sahayak",
           style: Theme.of(context).textTheme.titleLarge,
         ),
         actions: [
@@ -85,21 +86,25 @@ class _RoutesState extends State<Routes> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.home),
             label: Languages.of(context)!.home,
+            // label: "Home",
             backgroundColor: Theme.of(context).colorScheme.secondary,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.yard),
             label: Languages.of(context)!.marketsNearby,
+            // label: "Markets Nearby",
             backgroundColor: Theme.of(context).colorScheme.secondary,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.water_drop),
             label: Languages.of(context)!.weatherSoil,
+            // label: "Weather n Soil",
             backgroundColor: Theme.of(context).colorScheme.secondary,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.calendar_month),
             label: Languages.of(context)!.personalCal,
+            // label: "Personal Calender",
             backgroundColor: Theme.of(context).colorScheme.secondary,
           ),
         ],
