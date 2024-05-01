@@ -6,7 +6,6 @@ import 'package:krishi_sahayak/pages/market_page.dart';
 import 'package:krishi_sahayak/pages/personal_calendar.dart';
 import 'package:krishi_sahayak/pages/soil_weather.dart';
 import 'package:krishi_sahayak/providers/providers.dart';
-import 'package:krishi_sahayak/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class Routes extends StatefulWidget {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krishi_sahayak/pages/chatUI.dart';
 import 'package:krishi_sahayak/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'weather.dart';
@@ -34,6 +35,24 @@ class _SoilWeatherState extends State<SoilWeather> {
               'Click to view updated weather',
               style: TextStyle(fontSize: 18),
             ),
+          ),
+          const SizedBox(height: 50),
+          IconButton(
+            icon: const Icon(
+              Icons.message,
+              size: 50,
+              fill: BorderSide.strokeAlignCenter,
+            ),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+              elevation: 5,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ChatUI()),
+              );
+            },
           ),
           const SizedBox(height: 50),
           Flexible(

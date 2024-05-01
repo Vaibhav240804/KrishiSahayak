@@ -3,6 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:krishi_sahayak/pages/Signup_page.dart';
+import 'package:krishi_sahayak/pages/chatUI.dart';
+import 'package:krishi_sahayak/pages/home_page.dart';
 import 'package:krishi_sahayak/pages/login_page.dart';
 import 'package:krishi_sahayak/pages/profile.dart';
 import 'package:krishi_sahayak/pages/routes.dart';
@@ -22,6 +24,7 @@ void main() {
     ChangeNotifierProvider(create: (_) => UserProvider()),
     ChangeNotifierProvider(create: (_) => MarketProvider()),
     ChangeNotifierProvider(create: (_) => TodoProvider()),
+    ChangeNotifierProvider(create: (_) => ChatProvider()),
   ], child: const MyApp()));
 }
 
@@ -33,9 +36,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Position? _currentPosition;
+  bool _isLoggingIn = false;
   @override
   void initState() {
     _getCurrentPosition();
+
     super.initState();
   }
 

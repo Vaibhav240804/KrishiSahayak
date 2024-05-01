@@ -1,7 +1,105 @@
 import 'dart:convert';
+import 'package:krishi_sahayak/providers/providers.dart';
+import 'package:krishi_sahayak/providers/weather_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:translator/translator.dart';
+
+final translator = GoogleTranslator();
+Future<String> _translate(String text) async {
+  var translation = await translator.translate(text,
+      to: LocaleProvider().locale.languageCode);
+  return translation.text;
+}
+
+class ChatProvider extends ChangeNotifier {
+  List<List<dynamic>> _messages = [];
+  String _location = '';
+  String _weather = '';
+  String _cropName = '';
+  String _soilAnalysis = '';
+  String _weatherForecast = '';
+
+  List<List<dynamic>> get messages => _messages;
+
+  void setDetails(String location, String weather, String cropName,
+      String soilAnalysis, String weatherForecast) {
+    _location = location;
+    _weather = weather;
+    _cropName = cropName;
+    _soilAnalysis = soilAnalysis;
+    _weatherForecast = weatherForecast;
+    notifyListeners();
+  }
+
+  Future<String> sendUserInput(String text) async {
+    // 0 - user, 1 - bot
+    try {
+      print("sending user input");
+      _messages.add([0, text]);
+      notifyListeners();
+      print("past 1st notifyListeners()");
+      // fetchLlmResponse(text,).then((response) {
+      //   _messages.add([1, response]);
+      //   notifyListeners();
+      //   return response;
+      // }
+      // ).catchError((error) {
+      //   _messages.add([1, 'Error: $error']);
+      //   notifyListeners();
+      //   return error;
+      // });
+    } catch (e) {
+      return Future.error(e);
+    }
+    return "";
+  }
+
+  Future<void> fetchLlmResponse(String text, String lang) async {
+    try {
+      
+      print("fetching response");
+      notifyListeners();
+      String host = "7cd8-137-59-204-8";
+      final url = Uri.parse('https://$host.ngrok-free.app/chat');
+      final headers = {'Content-Type': 'application/json'};
+
+      final body = jsonEncode({
+        'txt': text,
+        'location': _location,
+        'curr_weather': _weather,
+        'weather_forecast': _weatherForecast,
+        'crop_name': "maize",
+        'soil_analysis': _soilAnalysis,
+        'lang': lang,
+      });
+
+      messages.add([1, 'responding...']);
+      notifyListeners();
+
+      final response = await http.post(url, headers: headers, body: body);
+      print(response.body);
+
+      messages.removeLast();
+      notifyListeners();
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print(data['response']);
+        messages.add([1, data['response']]);
+        notifyListeners();
+      } else {
+        messages.add([1, 'Error: ${response.statusCode}']);
+        notifyListeners();
+      }
+    } catch (e) {
+      messages.add([1, 'Error: $e']);
+      notifyListeners();
+    }
+  }
+}
 
 class User {
   String name;
@@ -12,8 +110,6 @@ class User {
   int pincode;
   double lat;
   double lon;
-
-  // const { N, P, K, temperature, humidity, phLevel, rainfall } = req.body; at backend side expected while sending req to update soil data
 
   Map<String, double> soil;
 
@@ -93,9 +189,8 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String host = "c5bc-137-59-204-8";
-
   Future<String> predictCrop() async {
+    String host = "7cd8-137-59-204-8";
     try {
       var url = Uri.parse('https://$host.ngrok-free.app/predict');
       Map<String, dynamic> soilData = {
@@ -108,21 +203,19 @@ class UserProvider extends ChangeNotifier {
         'rainfall': _user.soil['rainfall'],
       };
 
-      String jsonData = jsonEncode(soilData);
-
       var response = await http.post(
         url,
         headers: {
           'Content-Type': 'application/json',
-        }, // Set headers for JSON data
-        body: jsonData,
+        },
+        body: jsonEncode(soilData),
       );
       if (response.statusCode == 200) {
         print(response.body);
         Map<String, dynamic> responseData = jsonDecode(response.body);
         print(responseData['prediction']);
-        String prediction = responseData['prediction'];
-        String ai_Res = responseData['res'];
+        String prediction = responseData['prediction'] ?? '';
+        String ai_Res = responseData['res'] ?? '';
         _lastPrediction = prediction;
         _ai_Res = ai_Res;
         notifyListeners();
@@ -165,6 +258,7 @@ class UserProvider extends ChangeNotifier {
             'phLevel': soilComposition['phLevel'].toDouble(),
             'rainfall': soilComposition['rainfall'].toDouble(),
           };
+          print(_user.soil);
           notifyListeners();
           return "success";
         } else {

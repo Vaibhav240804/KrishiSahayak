@@ -48,6 +48,7 @@ dependencies:
   syncfusion_localizations: ^24.1.44
   shared_preferences: ^2.2.2
   permission_handler: ^11.1.0
+  translator: ^1.0.0
 
 dev_dependencies:
   flutter_test:

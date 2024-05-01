@@ -34,6 +34,7 @@ class WeatherProvider extends ChangeNotifier {
           throw data["message"];
         }
       }
+      notifyListeners();
       return data;
     } catch (e) {
       throw "An unexpected error has occurred";
@@ -55,6 +56,7 @@ class WeatherProvider extends ChangeNotifier {
           throw data["message"];
         }
       }
+      notifyListeners();
       return data;
     } catch (e) {
       throw "An unexpected error has occurred";

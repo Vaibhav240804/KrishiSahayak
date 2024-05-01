@@ -15,16 +15,12 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment:
-          MainAxisAlignment.spaceEvenly, // Distribute content evenly
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch, // Stretch child to fit width
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          // Allow Card to occupy available space
           child: Card(
             child: Padding(
-              // Add padding within the Card
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -59,7 +55,8 @@ class _ProfileState extends State<Profile> {
                             textAlign: TextAlign.center,
                           ),
                           Text(
-                            "${Languages.of(context)!.location} :  ${Provider.of<UserProvider>(context).user.state}",
+                            "${Languages.of(context)!.location} : ${Provider.of<UserProvider>(context).user.city}, ${Provider.of<UserProvider>(context).user.state}",
+
                             // "Location :  ${Provider.of<UserProvider>(context).user.state}",
                             style: Theme.of(context).textTheme.titleLarge,
                             textAlign: TextAlign.center,

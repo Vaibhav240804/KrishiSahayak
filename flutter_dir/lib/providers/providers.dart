@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
+
 class LocaleProvider extends ChangeNotifier {
   Locale _locale = const Locale('en');
 
