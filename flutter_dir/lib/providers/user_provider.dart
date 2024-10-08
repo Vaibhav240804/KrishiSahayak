@@ -62,7 +62,7 @@ class ChatProvider extends ChangeNotifier {
       
       print("fetching response");
       notifyListeners();
-      String host = "7cd8-137-59-204-8";
+      String host = "8c2f-2409-4080-1182-5599-74fc-e1-c3cb-8585";
       final url = Uri.parse('https://$host.ngrok-free.app/chat');
       final headers = {'Content-Type': 'application/json'};
 
@@ -88,7 +88,7 @@ class ChatProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         print(data['response']);
-        messages.add([1, data['response']]);
+        messages.add([1, data['response'].toString()]);
         notifyListeners();
       } else {
         messages.add([1, 'Error: ${response.statusCode}']);
@@ -190,7 +190,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<String> predictCrop() async {
-    String host = "7cd8-137-59-204-8";
+    String host = "8c2f-2409-4080-1182-5599-74fc-e1-c3cb-8585";
     try {
       var url = Uri.parse('https://$host.ngrok-free.app/predict');
       Map<String, dynamic> soilData = {
@@ -232,7 +232,7 @@ class UserProvider extends ChangeNotifier {
   Future<String> getSoidDetails() async {
     try {
       final cookie = await getStoredCookie();
-      var url = Uri.parse('http://192.168.0.108:5000/api/getsoildetails');
+      var url = Uri.parse('http://192.168.51.84:5000/api/getsoildetails');
       var response = await http.get(
         url,
         headers: {
@@ -282,7 +282,7 @@ class UserProvider extends ChangeNotifier {
       getStoredCookie().then((cookie) async {
         print(cookie.toString());
         try {
-          var url = Uri.parse('http://192.168.0.108:5000/api/soildetails');
+          var url = Uri.parse('http://192.168.51.84:5000/api/soildetails');
           var response = await http.post(
             url,
             headers: {
@@ -340,7 +340,7 @@ class UserProvider extends ChangeNotifier {
     }
 
     try {
-      var url = Uri.parse('http://192.168.0.108:5000/api/register');
+      var url = Uri.parse('http://192.168.51.84:5000/api/register');
       var response = await http.post(
         url,
         body: {
@@ -370,7 +370,7 @@ class UserProvider extends ChangeNotifier {
     final email = user.email;
     final password = user.password;
     try {
-      var url = Uri.parse('http://192.168.0.108:5000/api/login');
+      var url = Uri.parse('http://192.168.51.84:5000/api/login');
       var response = await http.post(
         url,
         body: {

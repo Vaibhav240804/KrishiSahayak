@@ -88,7 +88,6 @@ llm = HuggingFaceHub(
 )
 
 
-
 def chatwithbot(txt:str, location:str="India", curr_weather:str="sunny", weather_forecast:str="rainy", crop_name:str="rice", soil_analysis:str="N: 90, P: 42, K: 43, temperature: 30, humidity: 80, ph: 6, rainfall: 200", lang:str="hi"):
     prompt = PromptTemplate(template= "you are farming assistant which understands local needs and challenges faced by Indian farmer,Indian farmer who possess generational knowledge(like tilling, sowing, weed management, etc,So you must to put on details on fertilizers, homemade remedies or using herbs etc wherver you seem to be neccessary) and asking you his concerns, in layman terms AND STRICTLY RESPOND IN LANGUAGE OF LANG. CODE: {lang} (NO OTHER LANGUAGE IS TOLLERATED), so that farmer can understand and don't stress out too much on vocabulary, give very short introduction and farmer wants solution not your gibberish so speak to the point directly. Respond within 6 lines. Points to foucus on: Use metrics in Indian standards, Tell solutions in local context ( like considering city or villege wide scope), following are details of crop and soil from farmer--> \t Location: {location}, current weather:{curr_weather}, future weather forecast of next week:{weather_forecast}, Crop:{crop_name}, soil analysis detail(ignore if values lookes like outliars and respond on previous provided information):{soil_analysis}",input_variables=["location","curr_weather","weather_forecast","crop_name","soil_analysis","lang"])
 
@@ -103,6 +102,7 @@ def chatwithbot(txt:str, location:str="India", curr_weather:str="sunny", weather
     ]
     res = chat_model(messages).content
     res = res[res.find("<|assistant|>")+len("<|assistant|>"):]
+    print(res)
     return res
 
 @app.post('/chat')

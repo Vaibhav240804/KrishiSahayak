@@ -20,7 +20,7 @@ class WeatherProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> getForeCast(double lat, double lon) async {
-    const apiKey = "f3fe096bffdbcc33181446bc7bcf0278";
+    const apiKey = "9ad67688cb28cfb9f3da43be21e9a103";
     try {
       var res = await http.get(
         Uri.parse(
@@ -37,12 +37,13 @@ class WeatherProvider extends ChangeNotifier {
       notifyListeners();
       return data;
     } catch (e) {
+      print(e);
       throw "An unexpected error has occurred";
     }
   }
 
   Future<Map<String, dynamic>> getCurrentWeather(double lat, double lon) async {
-    const apiKey = "f3fe096bffdbcc33181446bc7bcf0278";
+    const apiKey = "9ad67688cb28cfb9f3da43be21e9a103";
     try {
       var res = await http.get(
         Uri.parse(
