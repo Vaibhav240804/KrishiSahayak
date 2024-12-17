@@ -4,6 +4,7 @@ import DashboardCard05 from "../partials/dashboard/DashboardCard05";
 import DashboardCard11 from "../partials/dashboard/DashboardCard11";
 import DashboardCard13 from "../partials/dashboard/DashboardCard13";
 import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
+import Findmarkets from "../../NearbyMarkets/Findmarkets";
 import Header from "../partials/Header";
 
 function Dashboard() {
@@ -48,6 +49,10 @@ function Dashboard() {
             
             <div className=" pt-12  animate-fade-down animate-once animate-duration-[3000ms] animate-delay-[1500ms] animate-ease-linear" id="calendar">
               <DashboardCard11 />
+            </div>
+
+            <div className=" pt-12  animate-fade-down animate-once animate-duration-[3000ms] animate-delay-[1500ms] animate-ease-linear" id="calendar">
+              <Findmarkets />
             </div>
 
 

@@ -6,6 +6,7 @@ import "./App.css";
 import Register from "./components/Login/Register";
 import Dashboard from "./components/Dashboard/pages/Dashboard";
 import MapComponent from "./components/Mandimap/Map";
+import NearbyMarkets from "./components/NearbyMarkets/Findmarkets"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/map" element={<MapComponent />} />
         <Route path="" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/markets" element={<NearbyMarkets />} />
       </Routes>
     </div>
   );
