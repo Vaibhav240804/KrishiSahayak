@@ -5,10 +5,10 @@ from langchain.prompts import PromptTemplate
 # from flask import Flask, jsonify, request
 from translate import Translator
 import uvicorn
-from fastapi import FastAPI, Form, Request, requests
+from fastapi import FastAPI, Form, Request
+from fastapi.responses import JSONResponse
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from requests import request
 import numpy as np
 import pickle
 from pydantic import BaseModel
@@ -133,28 +133,60 @@ async def chat(data: chatItem):
 
 
 
-@app.post('/predict')
-def predict():
-    print(request)
-    try:
-        data = request.get_json() 
-        # data = data.dict()
-        print(data)
-        N, P, K, temperature, humidity, ph, rainfall = (
-            data['N'],
-            data['P'],
-            data['K'],
-            data['temperature'],
-            data['humidity'],
-            data['ph'],
-            data['rainfall'],
-        )
-        prediction = classifier.predict([[N, P, K, temperature, humidity, ph, rainfall]])
-        print({'prediction': mapper[prediction[0]]})
-        return {'prediction': mapper[prediction[0]]}
+# @app.post('/predict')
+# def predict():
+#     print(request)
+#     try:
+#         data = request.get_json() 
+#         # data = data.dict()
+#         print(data)
+#         N, P, K, temperature, humidity, ph, rainfall = (
+#             data['N'],
+#             data['P'],
+#             data['K'],
+#             data['temperature'],
+#             data['humidity'],
+#             data['ph'],
+#             data['rainfall'],
+#         )
+#         prediction = classifier.predict([[N, P, K, temperature, humidity, ph, rainfall]])
+#         print({'prediction': mapper[prediction[0]]})
+#         return {'prediction': mapper[prediction[0]]}
     
+#     except Exception as e:
+#         print(e)
+#         return {'error': str(e)}
+    
+@app.post('/predict')
+async def predict(request: Request):
+    try:
+        data = await request.json()
+        print(data)
+        
+        # Cast values to appropriate types
+        N = float(data['N'])
+        P = float(data['P'])
+        K = float(data['K'])
+        temperature = float(data['temperature'])
+        humidity = float(data['humidity'])
+        ph = float(data['ph'])
+        rainfall = float(data['rainfall'])
+        
+        # Check for any invalid values (NaN, infinite)
+        for value in [N, P, K, temperature, humidity, ph, rainfall]:
+            if np.isnan(value) or np.isinf(value):
+                return JSONResponse(content={'error': 'Invalid numerical value found (NaN or Infinite)'}, status_code=400)
+
+        prediction = classifier.predict([[N, P, K, temperature, humidity, ph, rainfall]])
+        return JSONResponse(content={'prediction': mapper[prediction[0]]})
+    
+    except ValueError as ve:
+        return JSONResponse(content={'error': f"Invalid value encountered: {ve}"}, status_code=400)
+    except KeyError as ke:
+        return JSONResponse(content={'error': f"Missing expected field: {ke}"}, status_code=400)
     except Exception as e:
-        return {'error': str(e)}
+        return JSONResponse(content={'error': str(e)}, status_code=500)
+
 
 if __name__ == '__main__':
     uvicorn.run(app, host='127.0.0.1', port=8000)

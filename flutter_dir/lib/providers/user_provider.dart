@@ -59,10 +59,9 @@ class ChatProvider extends ChangeNotifier {
 
   Future<void> fetchLlmResponse(String text, String lang) async {
     try {
-      
       print("fetching response");
       notifyListeners();
-      String host = "cd12-103-104-226-58";
+      String host = "f0bd-103-104-226-58";
       final url = Uri.parse('https://$host.ngrok-free.app/chat');
       final headers = {'Content-Type': 'application/json'};
 
@@ -190,9 +189,9 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<String> predictCrop() async {
-    String host = "cd12-103-104-226-58";
+    String host = "f0bd-103-104-226-58";
     try {
-      //  https://cd12-103-104-226-58.ngrok-free.app
+      //  https://f0bd-103-104-226-58.ngrok-free.app
       var url = Uri.parse('https://$host.ngrok-free.app/predict');
       Map<String, dynamic> soilData = {
         'N': _user.soil['N'],
@@ -233,7 +232,7 @@ class UserProvider extends ChangeNotifier {
   Future<String> getSoidDetails() async {
     try {
       final cookie = await getStoredCookie();
-      var url = Uri.parse('http://192.168.51.84:5000/api/getsoildetails');
+      var url = Uri.parse('http://10.10.61.179:5000/api/getsoildetails');
       var response = await http.get(
         url,
         headers: {
@@ -282,32 +281,32 @@ class UserProvider extends ChangeNotifier {
     try {
       getStoredCookie().then((cookie) async {
         print(cookie.toString());
-        try {
-          var url = Uri.parse('http://192.168.51.84:5000/api/soildetails');
-          var response = await http.post(
-            url,
-            headers: {
-              'Cookie': cookie!,
-            },
-            body: {
-              'N': _user.soil['N'].toString(),
-              'P': _user.soil['P'].toString(),
-              'K': _user.soil['K'].toString(),
-              'temperature': _user.soil['temperature'].toString(),
-              'humidity': _user.soil['humidity'].toString(),
-              'phLevel': _user.soil['phLevel'].toString(),
-              'rainfall': _user.soil['rainfall'].toString(),
-            },
-          );
-          if (response.statusCode == 200) {
-            notifyListeners();
-            return Future(() => "success");
-          } else {
-            throw '${response.statusCode}';
-          }
-        } catch (error) {
-          rethrow;
-        }
+        // try {
+        //   var url = Uri.parse('http://10.10.61.179:5000/api/soildetails');
+        //   var response = await http.post(
+        //     url,
+        //     headers: {
+        //       'Cookie': cookie!,
+        //     },
+        //     body: {
+        //       'N': _user.soil['N'].toString(),
+        //       'P': _user.soil['P'].toString(),
+        //       'K': _user.soil['K'].toString(),
+        //       'temperature': _user.soil['temperature'].toString(),
+        //       'humidity': _user.soil['humidity'].toString(),
+        //       'phLevel': _user.soil['phLevel'].toString(),
+        //       'rainfall': _user.soil['rainfall'].toString(),
+        //     },
+        //   );
+        //   if (response.statusCode == 200) {
+        //     notifyListeners();
+        //     return Future(() => "success");
+        //   } else {
+        //     throw '${response.statusCode}';
+        //   }
+        // } catch (error) {
+        //   rethrow;
+        // }
       });
     } catch (e) {
       rethrow;
@@ -341,7 +340,7 @@ class UserProvider extends ChangeNotifier {
     }
 
     try {
-      var url = Uri.parse('http://192.168.51.84:5000/api/register');
+      var url = Uri.parse('http://10.10.61.179:5000/api/register');
       var response = await http.post(
         url,
         body: {
@@ -371,7 +370,7 @@ class UserProvider extends ChangeNotifier {
     final email = user.email;
     final password = user.password;
     try {
-      var url = Uri.parse('http://192.168.51.84:5000/api/login');
+      var url = Uri.parse('http://10.10.61.179:5000/api/login');
       var response = await http.post(
         url,
         body: {
