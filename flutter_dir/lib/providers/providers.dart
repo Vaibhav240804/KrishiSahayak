@@ -146,7 +146,7 @@ class TodoProvider extends ChangeNotifier {
   }
 
   void addMeeting(Meeting meeting) {
-    print("add meeting called" + meeting.startTime.toString());
+    print("add meeting called${meeting.startTime}");
     _meetings.add(meeting);
     // then upload the meetings list to the server
     uploadMeetingsToServer(_meetings);

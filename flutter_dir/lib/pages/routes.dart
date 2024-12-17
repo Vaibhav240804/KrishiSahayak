@@ -5,6 +5,7 @@ import 'package:krishi_sahayak/pages/home_page.dart';
 import 'package:krishi_sahayak/pages/market_page.dart';
 import 'package:krishi_sahayak/pages/personal_calendar.dart';
 import 'package:krishi_sahayak/pages/soil_weather.dart';
+import 'package:krishi_sahayak/pages/disease_pred.dart';
 import 'package:krishi_sahayak/providers/providers.dart';
 import 'package:provider/provider.dart';
 
@@ -103,7 +104,11 @@ class _RoutesState extends State<Routes> {
           BottomNavigationBarItem(
             icon: const Icon(Icons.calendar_month),
             label: Languages.of(context)!.personalCal,
-            // label: "Personal Calender",
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.eco),
+            label: Languages.of(context)!.cropDisease,
             backgroundColor: Theme.of(context).colorScheme.secondary,
           ),
         ],
@@ -121,6 +126,8 @@ class _RoutesState extends State<Routes> {
         return const SoilWeather();
       case 3:
         return const PersonalCalendar();
+      case 4:
+        return const CropDiseasePredictionPage();
       default:
         return Container();
     }

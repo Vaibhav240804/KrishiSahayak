@@ -111,8 +111,8 @@ class _SoilAnalysisCardState extends State<SoilAnalysisCard> {
           },
           child:
               // Text(Languages.of(context)!.save,
-              Text("Save",
-                  style: const TextStyle(
+              const Text("Save",
+                  style: TextStyle(
                     color: Colors.lightGreen,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

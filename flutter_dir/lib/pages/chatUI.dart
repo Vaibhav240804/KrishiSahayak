@@ -27,7 +27,7 @@ class _ChatUIState extends State<ChatUI> {
         Provider.of<WeatherProvider>(context).foreCast.toString();
     final locale = Provider.of<LocaleProvider>(context).locale;
 
-    void _sendMessage() {
+    void sendMessage() {
       final text = _textController.text;
       chatProvider.messages.add([0, text]);
       if (text.isNotEmpty) {
@@ -40,7 +40,7 @@ class _ChatUIState extends State<ChatUI> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Krishi Sahayak Chat'),
+        title: const Text('Krishi Sahayak Chat'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -86,9 +86,9 @@ class _ChatUIState extends State<ChatUI> {
                   ),
                   IconButton(
                     onPressed: () {
-                      _sendMessage();
+                      sendMessage();
                     },
-                    icon: Icon(Icons.send),
+                    icon: const Icon(Icons.send),
                   ),
                 ],
               ),

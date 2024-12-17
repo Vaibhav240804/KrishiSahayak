@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export const connectDB = async () => {
   const { connection } = await mongoose.connect(
-    "mongodb+srv://direct2vaibhavkore:GJVn9M2r2F8Ei0oA@db.6yoasr1.mongodb.net/?retryWrites=true&w=majority&appName=db"
+    "mongodb+srv://direct2vaibhavkore:C18EQUODpPZPZbnB@cluster0.b7y0h.mongodb.net/?retryWrites=true&w=majority&appName=cluster0"
   );
   console.log(`Mongo connected with ${connection.host}`);
 };

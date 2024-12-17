@@ -15,6 +15,7 @@ import 'package:krishi_sahayak/providers/weather_provider.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 import 'package:provider/provider.dart';
 import 'lang/localization_delegate.dart';
+import 'package:krishi_sahayak/pages/disease_pred.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -36,7 +37,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Position? _currentPosition;
-  bool _isLoggingIn = false;
+  final bool _isLoggingIn = false;
   @override
   void initState() {
     _getCurrentPosition();
@@ -103,6 +104,7 @@ class _MyAppState extends State<MyApp> {
         '/login': (context) => const LogInPage(),
         '/signup': (context) => const SignUpPage(),
         '/weather': (context) => const WeatherScreen(),
+        '/disease_pred': (context) => const CropDiseasePredictionPage(),
       },
       supportedLocales: const [
         Locale('en'),

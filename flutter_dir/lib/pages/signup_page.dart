@@ -188,9 +188,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         Provider.of<UserProvider>(context, listen: false)
                             .signUp(_user);
                     response
-                        .then((value) => {
-                              {Navigator.pushReplacementNamed(context, '/home')}
-                            })
+                        .then((value) =>
+                            {Navigator.pushReplacementNamed(context, '/home')})
                         .catchError((error) async {
                       await showDialog(
                         context: context,

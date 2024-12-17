@@ -15,7 +15,7 @@ Future<String> _translate(String text) async {
 }
 
 class ChatProvider extends ChangeNotifier {
-  List<List<dynamic>> _messages = [];
+  final List<List<dynamic>> _messages = [];
   String _location = '';
   String _weather = '';
   String _cropName = '';
@@ -62,7 +62,7 @@ class ChatProvider extends ChangeNotifier {
       
       print("fetching response");
       notifyListeners();
-      String host = "8c2f-2409-4080-1182-5599-74fc-e1-c3cb-8585";
+      String host = "cd12-103-104-226-58";
       final url = Uri.parse('https://$host.ngrok-free.app/chat');
       final headers = {'Content-Type': 'application/json'};
 
@@ -190,8 +190,9 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<String> predictCrop() async {
-    String host = "8c2f-2409-4080-1182-5599-74fc-e1-c3cb-8585";
+    String host = "cd12-103-104-226-58";
     try {
+      //  https://cd12-103-104-226-58.ngrok-free.app
       var url = Uri.parse('https://$host.ngrok-free.app/predict');
       Map<String, dynamic> soilData = {
         'N': _user.soil['N'],
@@ -215,9 +216,9 @@ class UserProvider extends ChangeNotifier {
         Map<String, dynamic> responseData = jsonDecode(response.body);
         print(responseData['prediction']);
         String prediction = responseData['prediction'] ?? '';
-        String ai_Res = responseData['res'] ?? '';
+        String aiRes = responseData['res'] ?? '';
         _lastPrediction = prediction;
-        _ai_Res = ai_Res;
+        _ai_Res = aiRes;
         notifyListeners();
         return prediction;
       } else {

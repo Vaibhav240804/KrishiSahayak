@@ -134,21 +134,27 @@ async def chat(data: chatItem):
 
 
 @app.post('/predict')
-def predict(data: Item):
-    data = data.dict()
-    print(data)
-    N, P, K, temperature, humidity, ph, rainfall = (
-        data['N'],
-        data['P'],
-        data['K'],
-        data['temperature'],
-        data['humidity'],
-        data['ph'],
-        data['rainfall'],
-    )
-    prediction = classifier.predict([[N, P, K, temperature, humidity, ph, rainfall]])
-    print({'prediction': mapper[prediction[0]]})
-    return {'prediction': mapper[prediction[0]]}
+def predict():
+    print(request)
+    try:
+        data = request.get_json() 
+        # data = data.dict()
+        print(data)
+        N, P, K, temperature, humidity, ph, rainfall = (
+            data['N'],
+            data['P'],
+            data['K'],
+            data['temperature'],
+            data['humidity'],
+            data['ph'],
+            data['rainfall'],
+        )
+        prediction = classifier.predict([[N, P, K, temperature, humidity, ph, rainfall]])
+        print({'prediction': mapper[prediction[0]]})
+        return {'prediction': mapper[prediction[0]]}
+    
+    except Exception as e:
+        return {'error': str(e)}
 
 if __name__ == '__main__':
     uvicorn.run(app, host='127.0.0.1', port=8000)

@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           FutureBuilder(
             future: weatherProvider.getForeCast(
-                userprovider.user!.lat, userprovider.user!.lon),
+                userprovider.user.lat, userprovider.user.lon),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
